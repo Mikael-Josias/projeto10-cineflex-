@@ -19,7 +19,7 @@ export default function Content(){
         <StyledContent>
             <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
             {selectedMovie === null ? <Movies setSelectedMovie={setSelectedMovie} /> : null}
-            {selectedMovie !== null ? <Schedule movie={movie} /> : null}
+            {selectedMovie !== null ? <Schedule movie={selectedMovie} /> : null}
         </StyledContent>
     );
 }

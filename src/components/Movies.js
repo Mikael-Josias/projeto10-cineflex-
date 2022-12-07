@@ -15,7 +15,7 @@ export default function Movies(props){
     }, []);
 
     function selectMovie(e){
-        setSelectedMovie(e.id);
+        setSelectedMovie(movies[e.id]);
     }
 
     if (movies === null) {
@@ -24,7 +24,7 @@ export default function Movies(props){
 
     return (
         <MoviesSection>
-                {movies.map((m) => <MovieCard key={m.id} id={m.id} onClick={(e) => selectMovie(e.currentTarget)} ><MovieBanner src={m.posterURL} alt={m.title} key={m.id} /></MovieCard>)}
+                {movies.map((m, i) => <MovieCard key={m.id} id={i} onClick={(e) => selectMovie(e.currentTarget)} ><MovieBanner src={m.posterURL} alt={m.title} key={m.id} /></MovieCard>)}
         </MoviesSection>
     );
 }

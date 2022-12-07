@@ -9,7 +9,7 @@ export default function Footer(props){
                 <MovieBanner src={movie.posterURL} alt={movie.title} key={movie.id} />
             </MovieCard>
             <MovieInfo>
-                <MovieTitle>2067</MovieTitle>
+                <MovieTitle>{movie.title}</MovieTitle>
             </MovieInfo>
         </StyledFooter>
     );
