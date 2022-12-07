@@ -8,6 +8,7 @@ export default function Schedule(props){
     const [schedules, setSchedules] = useState(null);
 
     const {movie} = props;
+    const {setSelectedSession} = props;
     const scheduleUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${movie.id}/showtimes`;
 
     useEffect(() => {
@@ -16,13 +17,17 @@ export default function Schedule(props){
         promisse.catch((p) => console.log(p.message));
     }, []);
 
+    function selectSession(e){
+        setSelectedSession(e.id);
+    }
+
     if (schedules === null) {
         return <div>Carregando...</div>
     }
 
     return (
         <ScheduleSection>
-            {schedules.map((s) => <ScheduleOption key={s.id}><DaySpan>{s.weekday} - {s.date}</DaySpan><TimeOption>{s.showtimes.map((st) => <React.Fragment key={st.id}><RadioOption type="radio" id={st.id}/><LabelOption htmlFor={st.id} key={st.id}>{st.name}</LabelOption></React.Fragment>)}</TimeOption></ScheduleOption>)}
+            {schedules.map((s) => <ScheduleOption key={s.id}><DaySpan>{s.weekday} - {s.date}</DaySpan><TimeOption>{s.showtimes.map((st) => <React.Fragment key={st.id}><RadioOption type="radio" id={st.id}/><LabelOption htmlFor={st.id} key={st.id} onClick={(e) => selectSession(e.target)}>{st.name}</LabelOption></React.Fragment>)}</TimeOption></ScheduleOption>)}
             <Footer movie={movie} />
         </ScheduleSection>
     );
