@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
+import Movies from "./Movies";
+
 export default function Content(){
     return (
         <StyledContent>
             <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
+            <Movies/>
         </StyledContent>
     );
 }
