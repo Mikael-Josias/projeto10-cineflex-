@@ -26,7 +26,7 @@ export default function Movies(){
 const MoviesSection = styled.section`
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: flex-start;
     width: 100%;
 `;
