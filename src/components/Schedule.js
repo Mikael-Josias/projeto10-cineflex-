@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Footer from "./Footer";
@@ -22,7 +22,7 @@ export default function Schedule(props){
 
     return (
         <ScheduleSection>
-            {schedules.map((s) => <ScheduleOption><DaySpan>{s.weekday} - {s.date}</DaySpan><TimeOption>{s.showtimes.map((st) => <><RadioOption type="radio" id={st.id}/><LabelOption htmlFor={st.id} >{st.name}</LabelOption></>)}</TimeOption></ScheduleOption>)}
+            {schedules.map((s) => <ScheduleOption key={s.id}><DaySpan>{s.weekday} - {s.date}</DaySpan><TimeOption>{s.showtimes.map((st) => <React.Fragment key={st.id}><RadioOption type="radio" id={st.id}/><LabelOption htmlFor={st.id} key={st.id}>{st.name}</LabelOption></React.Fragment>)}</TimeOption></ScheduleOption>)}
             <Footer movie={movie} />
         </ScheduleSection>
     );
