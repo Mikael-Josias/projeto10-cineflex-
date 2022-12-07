@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import Footer from "./Footer";
+
 export default function Schedule(props){
     const [schedules, setSchedules] = useState(null);
 
@@ -21,6 +23,7 @@ export default function Schedule(props){
     return (
         <ScheduleSection>
             {schedules.map((s) => <ScheduleOption><DaySpan>{s.weekday} - {s.date}</DaySpan><TimeOption>{s.showtimes.map((st) => <><RadioOption type="radio" id={st.id}/><LabelOption htmlFor={st.id} >{st.name}</LabelOption></>)}</TimeOption></ScheduleOption>)}
+            <Footer movie={movie} />
         </ScheduleSection>
     );
 }
@@ -47,6 +50,7 @@ const TimeOption = styled.div`
     display: flex;
     margin: 22px 0;
 `;
+
 const RadioOption = styled.input`
     visibility: collapse;
 `;
