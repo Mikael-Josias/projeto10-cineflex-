@@ -2,9 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-export default function Movies(){
+export default function Movies(props){
     const [movies, setMovies] = useState(null);
     const moviesUrl = "https://mock-api.driven.com.br/api/v8/cineflex/movies";
+
+    const {setSelectedMovie} = props;
 
     useEffect(() => {
         const promisse = axios.get(moviesUrl);
@@ -12,13 +14,17 @@ export default function Movies(){
         promisse.catch((p) => console.log(p.message));
     }, []);
 
+    function selectMovie(e){
+        setSelectedMovie(e.id);
+    }
+
     if (movies === null) {
         return <div>Carregando...</div>
     }
 
     return (
         <MoviesSection>
-                {movies.map((m) => <MovieCard key={m.id}><MovieBanner src={m.posterURL} alt={m.title} key={m.id} /></MovieCard>)}
+                {movies.map((m) => <MovieCard key={m.id} id={m.id} onClick={(e) => selectMovie(e.currentTarget)} ><MovieBanner src={m.posterURL} alt={m.title} key={m.id} /></MovieCard>)}
         </MoviesSection>
     );
 }

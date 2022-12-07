@@ -1,9 +1,12 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 import Movies from "./Movies";
 import Schedule from "./Schedule";
 
 export default function Content(){
+    const [selectedMovie, setSelectedMovie] = useState(null);
+
     const movie = {
         id: 1,
         title: "2067",
@@ -15,8 +18,8 @@ export default function Content(){
     return (
         <StyledContent>
             <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
-            {/* <Movies/> */}
-            <Schedule movie={movie} />
+            {selectedMovie === null ? <Movies setSelectedMovie={setSelectedMovie} /> : null}
+            {selectedMovie !== null ? <Schedule movie={movie} /> : null}
         </StyledContent>
     );
 }
