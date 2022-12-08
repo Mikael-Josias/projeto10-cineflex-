@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Movies(props){
@@ -24,7 +25,13 @@ export default function Movies(props){
 
     return (
         <MoviesSection>
-                {movies.map((m, i) => <MovieCard key={m.id} id={i} onClick={(e) => selectMovie(e.currentTarget)} ><MovieBanner src={m.posterURL} alt={m.title} key={m.id} /></MovieCard>)}
+                {movies.map((m, i) => (
+                    <Link key={m.id} to={`/${m.id}/schedules`}>
+                        <MovieCard  id={i} onClick={(e) => selectMovie(e.currentTarget)} >
+                            <MovieBanner src={m.posterURL} alt={m.title} key={m.id} />
+                        </MovieCard>
+                    </Link>
+                ))}
         </MoviesSection>
     );
 }

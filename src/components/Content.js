@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 
 import Movies from "./Movies";
@@ -11,10 +12,14 @@ export default function Content(){
 
     return (
         <StyledContent>
-            <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
-            {selectedMovie === null ? <Movies setSelectedMovie={setSelectedMovie} /> : null}
-            {selectedMovie !== null && selectedSession === null ? <Schedule movie={selectedMovie} setSelectedSession={setSelectedSession} /> : null}
-            {selectedSession !== null ? <Seats session={selectedSession}/> : null}
+            <BrowserRouter>
+                <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
+                <Routes>
+                    <Route path="/" element={<Movies setSelectedMovie={setSelectedMovie} />} />
+                    <Route path="/:movieId/schedules" element={<Schedule movie={selectedMovie} setSelectedSession={setSelectedSession} />} />
+                    <Route path="/:movieId/:scheduleId/seats" element={<Seats session={selectedSession}/>} />
+                </Routes>
+            </BrowserRouter>
         </StyledContent>
     );
 }

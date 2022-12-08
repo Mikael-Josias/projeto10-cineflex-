@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import Footer from "./Footer";
 
 export default function Schedule(props){
+    const {movieId} = useParams();
     const [schedules, setSchedules] = useState(null);
 
     const {movie} = props;
     const {setSelectedSession} = props;
-    const scheduleUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${movie.id}/showtimes`;
+    const scheduleUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${movieId}/showtimes`;
 
     useEffect(() => {
         const promisse = axios.get(scheduleUrl);
@@ -27,7 +29,19 @@ export default function Schedule(props){
 
     return (
         <ScheduleSection>
-            {schedules.map((s) => <ScheduleOption key={s.id}><DaySpan>{s.weekday} - {s.date}</DaySpan><TimeOption>{s.showtimes.map((st) => <React.Fragment key={st.id}><RadioOption type="radio" id={st.id}/><LabelOption htmlFor={st.id} key={st.id} onClick={(e) => selectSession(st)}>{st.name}</LabelOption></React.Fragment>)}</TimeOption></ScheduleOption>)}
+            {schedules.map((s) => (
+                <ScheduleOption key={s.id}>
+                    <DaySpan>{s.weekday} - {s.date}</DaySpan>
+                    <TimeOption>
+                        {s.showtimes.map((st) => (
+                            <Link key={st.id} to={`/${movieId}/${st.id}/seats`} >
+                                <RadioOption type="radio" id={st.id}/>
+                                <LabelOption htmlFor={st.id} key={st.id} onClick={(e) => selectSession(st)}>{st.name}</LabelOption>
+                            </Link>
+                        ))}
+                    </TimeOption>
+                </ScheduleOption>
+            ))}
             <Footer movie={movie} />
         </ScheduleSection>
     );
@@ -64,6 +78,7 @@ const LabelOption = styled.label`
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
     font-weight: 400;
+    text-decoration: none;
     color: white;
     display: flex;
     justify-content: center;
