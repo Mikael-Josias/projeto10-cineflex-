@@ -16,8 +16,8 @@ export default function Content(){
                 <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
                 <Routes>
                     <Route path="/" element={<Movies setSelectedMovie={setSelectedMovie} />} />
-                    <Route path="/:movieId/schedules" element={<Schedule movie={selectedMovie} setSelectedSession={setSelectedSession} />} />
-                    <Route path="/:movieId/:scheduleId/seats" element={<Seats session={selectedSession}/>} />
+                    <Route path="/:movieId/schedules" element={<Schedule/>} />
+                    <Route path="/:movieId/:scheduleId/seats" element={<Seats selectedMovie={selectedMovie}/>} />
                 </Routes>
             </BrowserRouter>
         </StyledContent>

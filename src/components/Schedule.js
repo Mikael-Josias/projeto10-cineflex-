@@ -7,42 +7,36 @@ import Footer from "./Footer";
 
 export default function Schedule(props){
     const {movieId} = useParams();
-    const [schedules, setSchedules] = useState(null);
+    const [movieSession, setMovieSession] = useState(null);
 
-    const {movie} = props;
-    const {setSelectedSession} = props;
     const scheduleUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${movieId}/showtimes`;
 
     useEffect(() => {
         const promisse = axios.get(scheduleUrl);
-        promisse.then((p) => setSchedules(p.data.days));
+        promisse.then((p) => setMovieSession(p.data));
         promisse.catch((p) => console.log(p.message));
     }, []);
-
-    function selectSession(showtime){
-        setSelectedSession(showtime);
-    }
-
-    if (schedules === null) {
+    
+    if (movieSession === null) {
         return <div>Carregando...</div>
     }
 
     return (
         <ScheduleSection>
-            {schedules.map((s) => (
+            {movieSession.days.map((s) => (
                 <ScheduleOption key={s.id}>
                     <DaySpan>{s.weekday} - {s.date}</DaySpan>
                     <TimeOption>
                         {s.showtimes.map((st) => (
                             <Link key={st.id} to={`/${movieId}/${st.id}/seats`} >
                                 <RadioOption type="radio" id={st.id}/>
-                                <LabelOption htmlFor={st.id} key={st.id} onClick={(e) => selectSession(st)}>{st.name}</LabelOption>
+                                <LabelOption htmlFor={st.id} key={st.id}>{st.name}</LabelOption>
                             </Link>
                         ))}
                     </TimeOption>
                 </ScheduleOption>
             ))}
-            <Footer movie={movie} />
+            <Footer movie={movieSession} />
         </ScheduleSection>
     );
 }

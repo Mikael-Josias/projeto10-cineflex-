@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export default function Footer(props){
     const {movie} = props;
-
     return (
         <StyledFooter>
             <MovieCard key={movie.id}>
