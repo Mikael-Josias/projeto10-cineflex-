@@ -36,21 +36,34 @@ export default function Seats(props){
                         <SeatNumber htmlFor={s.id}>{s.name}</SeatNumber>
                     </Seat>
                 ))}
-            </SeatsContainer>
-            <SeatsInfo>
-                <SeatInfo>
-                    <CheckboxInfo type="checkbox" checked />
-                    <span>Selecionado</span>
-                </SeatInfo>
-                <SeatInfo>
-                    <CheckboxInfo type="checkbox" disabled bgColor="#C3CFD9" bdColor="#808F9D"/>
-                    <span>Disponível</span>
-                </SeatInfo>
-                <SeatInfo>
-                    <CheckboxInfo type="checkbox" disabled bgColor="#FBE192" bdColor="#F7C52B"/>
-                    <span>Indisponível</span>
-                </SeatInfo>
+                <SeatsInfo>
+                    <SeatInfo>
+                        <CheckboxInfo type="checkbox" checked />
+                        <span>Selecionado</span>
+                    </SeatInfo>
+                    <SeatInfo>
+                        <CheckboxInfo type="checkbox" disabled bgColor="#C3CFD9" bdColor="#808F9D"/>
+                        <span>Disponível</span>
+                    </SeatInfo>
+                    <SeatInfo>
+                        <CheckboxInfo type="checkbox" disabled bgColor="#FBE192" bdColor="#F7C52B"/>
+                        <span>Indisponível</span>
+                    </SeatInfo>
             </SeatsInfo>
+            </SeatsContainer>
+
+            <BuySeatsForm>
+                <FormLabel>
+                    Nome do comprador:
+                    <FormInput type="text" placeholder="Digite seu nome..." />
+                </FormLabel>
+                <FormLabel>
+                    CPF do comprador:
+                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} />
+                </FormLabel>
+
+                <FormInput type="submit" value="Reservar assento(s)" />
+            </BuySeatsForm>
         </>
     );
 }
@@ -117,6 +130,10 @@ const SeatsInfo = styled.div`
 `;
 
 const SeatInfo = styled.div`
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #4E5A65;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -137,4 +154,53 @@ const CheckboxInfo = styled.input`
         border-color: #0E7D71;
         background-color: #1AAE9E;
     }
+`;
+
+const BuySeatsForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin: 40px auto 40px auto;
+    width: 325px;
+`;
+
+const FormLabel = styled.label`
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    width: 325px;
+`;
+
+const FormInput = styled.input`
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    padding-left: 20px;
+    height: 50px;
+
+    &::placeholder{
+        font-style: italic;
+    }
+
+    ${props => props.type === 'number' && `
+        -webkit-appearance: none;
+        margin: 0;
+        -moz-appearance: textfield;
+    `}
+
+    ${props => props.type === 'submit' && `
+        color: white;
+        background-color: #E8833A;
+        border: none;
+        border-radius: 3px;
+        margin-top: 50px;
+        height: 40px;
+        width: 225px;
+        cursor: pointer;
+    `}
 `;
