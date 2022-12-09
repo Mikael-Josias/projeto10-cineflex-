@@ -12,10 +12,12 @@ export default function Seats(props){
     const [movieInfo, setMovieInfo] = useState(null);
     const [seatsInfo, setSeatsInfo] = useState(null);
 
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [userName, setUserName] = useState(null);
+    const [userCpf, setUserCpf] = useState(null);
+
     const seatsUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${scheduleId}/seats`;
     const bookSeatUrl = `https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`;
-
-    const selectedSeats = [];
 
     useEffect(() => {
         const promisse = axios.get(seatsUrl);
@@ -28,14 +30,35 @@ export default function Seats(props){
     }, []);
 
     function selectSeat(id){
+        const newArr = [...selectedSeats];
+
         if (selectedSeats.includes(id)) {
             const i = selectedSeats.indexOf(id);
-            selectedSeats.splice(i, 1);
+            newArr.splice(i, 1);
         }else{
-            selectedSeats.push(id);
+            newArr.push(id);
         }
 
-        console.log(selectedSeats);
+        setSelectedSeats(newArr);
+        console.log(newArr);
+    }
+
+    function bookSeat(e){
+        e.preventDefault();
+
+        if (selectedSeats.length === 0) {
+            console.log("Você precisa selecionar pelo menos um assento!");
+        }
+        if (userName === null || userName === undefined || userName === '' ) {
+            console.log("Você precisa digitar um nome");
+        }
+        if (userCpf === null || userCpf === undefined || userCpf === '' ) {
+            console.log("Você precisa digitar um cpf");
+        }
+
+        const userData = {ids: selectedSeats, name: userName, cpf: userCpf};
+
+        
     }
 
     if (setDayInfo === null || seatsInfo === null || movieInfo === null) {
@@ -67,14 +90,14 @@ export default function Seats(props){
             </SeatsInfo>
             </SeatsContainer>
 
-            <BuySeatsForm>
+            <BuySeatsForm onSubmit={(e) => bookSeat(e)}>
                 <FormLabel>
                     Nome do comprador:
-                    <FormInput type="text" placeholder="Digite seu nome..." />
+                    <FormInput type="text" placeholder="Digite seu nome..." onChange={(e) => setUserName(e.target.value)} />
                 </FormLabel>
                 <FormLabel>
                     CPF do comprador:
-                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} />
+                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} />
                 </FormLabel>
 
                 <FormInput type="submit" value="Reservar assento(s)" />
