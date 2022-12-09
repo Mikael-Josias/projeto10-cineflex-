@@ -28,14 +28,30 @@ export default function Seats(props){
     }
 
     return (
-        <SeatsContainer>
-            {seatsInfo.map((s) => (
-                <Seat key={s.id} >
-                    <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"}/>
-                    <SeatNumber htmlFor={s.id}>{s.name}</SeatNumber>
-                </Seat>
-            ))}
-        </SeatsContainer>
+        <>
+            <SeatsContainer>
+                {seatsInfo.map((s) => (
+                    <Seat key={s.id} >
+                        <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"}/>
+                        <SeatNumber htmlFor={s.id}>{s.name}</SeatNumber>
+                    </Seat>
+                ))}
+            </SeatsContainer>
+            <SeatsInfo>
+                <SeatInfo>
+                    <CheckboxInfo type="checkbox" checked />
+                    <span>Selecionado</span>
+                </SeatInfo>
+                <SeatInfo>
+                    <CheckboxInfo type="checkbox" disabled bgColor="#C3CFD9" bdColor="#808F9D"/>
+                    <span>Disponível</span>
+                </SeatInfo>
+                <SeatInfo>
+                    <CheckboxInfo type="checkbox" disabled bgColor="#FBE192" bdColor="#F7C52B"/>
+                    <span>Indisponível</span>
+                </SeatInfo>
+            </SeatsInfo>
+        </>
     );
 }
 
@@ -45,6 +61,8 @@ const SeatsContainer = styled.section`
     align-items: flex-start;
     flex-wrap: wrap;
     padding: 0 24px;
+    margin: 0 auto;
+    width: 375px;
 `;
 
 const Seat = styled.div`
@@ -88,4 +106,35 @@ font-family: 'Roboto', sans-serif;
     height: 26px;
     width: 26px;
     z-index: 1;
+    cursor: pointer;
+`;
+
+const SeatsInfo = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px auto 0 auto;
+    width: 375px;
+`;
+
+const SeatInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 33%;
+`;
+
+const CheckboxInfo = styled.input`
+    background-color: ${props => props.bgColor};
+    border: 1px solid ${props => props.bdColor};
+    border-radius: 50%;
+    vertical-align: middle;
+    appearance: none;
+    outline: none;
+    height: 26px;
+    width: 26px;
+    &:checked{
+        border-color: #0E7D71;
+        background-color: #1AAE9E;
+    }
 `;
