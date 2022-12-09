@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default function Footer(props){
-    const {movie} = props;
+    const {movie, session} = props;
     return (
         <StyledFooter>
             <MovieCard key={movie.id}>
@@ -9,6 +9,7 @@ export default function Footer(props){
             </MovieCard>
             <MovieInfo>
                 <MovieTitle>{movie.title}</MovieTitle>
+                <MovieTitle>{session !== undefined ? `${session.day.weekday} - ${session.name}` : null}</MovieTitle>
             </MovieInfo>
         </StyledFooter>
     );

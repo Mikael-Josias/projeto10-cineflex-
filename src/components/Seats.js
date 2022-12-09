@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import Footer from "./Footer";
+
 export default function Seats(props){
     const {movieId, scheduleId} = useParams();
 
@@ -11,17 +13,30 @@ export default function Seats(props){
     const [seatsInfo, setSeatsInfo] = useState(null);
 
     const seatsUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${scheduleId}/seats`;
+    const bookSeatUrl = `https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`;
+
+    const selectedSeats = [];
 
     useEffect(() => {
         const promisse = axios.get(seatsUrl);
         promisse.then((p) => {
-            setDayInfo(p.data.day);
+            setDayInfo(p.data);
             setMovieInfo(p.data.movie);
             setSeatsInfo(p.data.seats);
-            console.log(p.data.seats);
         });
         promisse.catch((p) => console.log(p.message));
     }, []);
+
+    function selectSeat(id){
+        if (selectedSeats.includes(id)) {
+            const i = selectedSeats.indexOf(id);
+            selectedSeats.splice(i, 1);
+        }else{
+            selectedSeats.push(id);
+        }
+
+        console.log(selectedSeats);
+    }
 
     if (setDayInfo === null || seatsInfo === null || movieInfo === null) {
         return <div>Carregando...</div>
@@ -32,7 +47,7 @@ export default function Seats(props){
             <SeatsContainer>
                 {seatsInfo.map((s) => (
                     <Seat key={s.id} >
-                        <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"}/>
+                        <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"} onChange={(e) => selectSeat(e.target.id)} />
                         <SeatNumber htmlFor={s.id}>{s.name}</SeatNumber>
                     </Seat>
                 ))}
@@ -64,6 +79,7 @@ export default function Seats(props){
 
                 <FormInput type="submit" value="Reservar assento(s)" />
             </BuySeatsForm>
+            <Footer movie={movieInfo} session={dayInfo} />
         </>
     );
 }
