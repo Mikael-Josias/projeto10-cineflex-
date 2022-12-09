@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Movies from "./Movies";
 import Schedule from "./Schedule";
 import Seats from "./Seats";
+import Success from "./Success";
 
 export default function Content(){
     const [selectedMovie, setSelectedMovie] = useState(null);
@@ -18,6 +19,7 @@ export default function Content(){
                     <Route path="/" element={<Movies setSelectedMovie={setSelectedMovie} />} />
                     <Route path="/:movieId/schedules" element={<Schedule/>} />
                     <Route path="/:movieId/:scheduleId/seats" element={<Seats selectedMovie={selectedMovie}/>} />
+                    <Route path="/success" element={<Success />} />
                 </Routes>
             </BrowserRouter>
         </StyledContent>

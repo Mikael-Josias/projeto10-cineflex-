@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import Footer from "./Footer";
 
 export default function Seats(props){
     const {movieId, scheduleId} = useParams();
+    const navigate = useNavigate();
 
     const [dayInfo, setDayInfo] = useState(null);
     const [movieInfo, setMovieInfo] = useState(null);
@@ -59,7 +60,7 @@ export default function Seats(props){
         const userData = {ids: selectedSeats, name: userName, cpf: userCpf};
 
         const promisse = axios.post(bookSeatUrl, userData);
-        promisse.then((res) => console.log(res));
+        promisse.then(() => navigate("/success"));
         promisse.catch((err) => console.log(err));
     }
 
@@ -78,7 +79,7 @@ export default function Seats(props){
                 ))}
                 <SeatsInfo>
                     <SeatInfo>
-                        <CheckboxInfo type="checkbox" checked />
+                        <CheckboxInfo type="checkbox" defaultChecked disabled />
                         <span>Selecionado</span>
                     </SeatInfo>
                     <SeatInfo>
@@ -95,11 +96,11 @@ export default function Seats(props){
             <BuySeatsForm onSubmit={(e) => bookSeat(e)}>
                 <FormLabel>
                     Nome do comprador:
-                    <FormInput type="text" placeholder="Digite seu nome..." onChange={(e) => setUserName(e.target.value)} />
+                    <FormInput type="text" placeholder="Digite seu nome..." onChange={(e) => setUserName(e.target.value)} required />
                 </FormLabel>
                 <FormLabel>
                     CPF do comprador:
-                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} />
+                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} required />
                 </FormLabel>
 
                 <FormInput type="submit" value="Reservar assento(s)" />
