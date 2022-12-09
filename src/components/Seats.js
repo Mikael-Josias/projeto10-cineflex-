@@ -58,7 +58,9 @@ export default function Seats(props){
 
         const userData = {ids: selectedSeats, name: userName, cpf: userCpf};
 
-        
+        const promisse = axios.post(bookSeatUrl, userData);
+        promisse.then((res) => console.log(res));
+        promisse.catch((err) => console.log(err));
     }
 
     if (setDayInfo === null || seatsInfo === null || movieInfo === null) {
