@@ -151,7 +151,7 @@ const Checkbox = styled.input`
 `;
 
 const SeatNumber = styled.label`
-font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 11px;
     font-weight: 400;
     color: black;
