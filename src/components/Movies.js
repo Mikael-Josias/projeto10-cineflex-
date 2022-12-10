@@ -7,17 +7,11 @@ export default function Movies(props){
     const [movies, setMovies] = useState(null);
     const moviesUrl = "https://mock-api.driven.com.br/api/v8/cineflex/movies";
 
-    const {setSelectedMovie} = props;
-
     useEffect(() => {
         const promisse = axios.get(moviesUrl);
         promisse.then((p) => setMovies(p.data));
         promisse.catch((p) => console.log(p.message));
     }, []);
-
-    function selectMovie(e){
-        setSelectedMovie(movies[e.id]);
-    }
 
     if (movies === null) {
         return <div>Carregando...</div>
@@ -27,7 +21,7 @@ export default function Movies(props){
         <MoviesSection>
                 {movies.map((m, i) => (
                     <Link key={m.id} to={`/${m.id}/schedules`}>
-                        <MovieCard  id={i} onClick={(e) => selectMovie(e.currentTarget)} >
+                        <MovieCard  id={i} >
                             <MovieBanner src={m.posterURL} alt={m.title} key={m.id} />
                         </MovieCard>
                     </Link>

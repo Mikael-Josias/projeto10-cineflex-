@@ -1,20 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Success(){
+export default function Success(props){
     const navigate = useNavigate();
+    const {movieData, seatsData} = props;
 
+    console.log(seatsData);
     return (
         <SuccessContainer>
             <DataContainer>
                 <SubcategoryTitle>Filme e sessão</SubcategoryTitle>
-                <CategoryDataSpan>Enola Holmes</CategoryDataSpan>
-                <CategoryDataSpan>24/06/2021 15:00</CategoryDataSpan>
+                <CategoryDataSpan>{movieData.movie.title}</CategoryDataSpan>
+                <CategoryDataSpan>{`${movieData.day.date} ${movieData.name}`}</CategoryDataSpan>
             </DataContainer>
             <DataContainer>
                 <SubcategoryTitle>Ingressos</SubcategoryTitle>
-                <CategoryDataSpan>Assento 15</CategoryDataSpan>
-                <CategoryDataSpan>Assento 16</CategoryDataSpan>
+                {seatsData.map((s) => <CategoryDataSpan key={s}>Assento {s}</CategoryDataSpan>)}
             </DataContainer>
             <DataContainer>
                 <SubcategoryTitle>Comprador</SubcategoryTitle>

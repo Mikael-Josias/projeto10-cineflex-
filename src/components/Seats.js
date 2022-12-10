@@ -17,12 +17,15 @@ export default function Seats(props){
     const [userName, setUserName] = useState(null);
     const [userCpf, setUserCpf] = useState(null);
 
+    const {setMovieData, setSeatsData, seatsData} = props;
+
     const seatsUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${scheduleId}/seats`;
     const bookSeatUrl = `https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`;
 
     useEffect(() => {
         const promisse = axios.get(seatsUrl);
         promisse.then((p) => {
+            setMovieData(p.data);
             setDayInfo(p.data);
             setMovieInfo(p.data.movie);
             setSeatsInfo(p.data.seats);
@@ -30,18 +33,22 @@ export default function Seats(props){
         promisse.catch((p) => console.log(p.message));
     }, []);
 
-    function selectSeat(id){
+    function selectSeat(id, num){
         const newArr = [...selectedSeats];
+        const newSeatNumber = [...seatsData]
 
         if (selectedSeats.includes(id)) {
             const i = selectedSeats.indexOf(id);
             newArr.splice(i, 1);
+            newSeatNumber.splice(i, 1);
         }else{
             newArr.push(id);
+            newSeatNumber.push(num);
         }
 
         setSelectedSeats(newArr);
-        console.log(newArr);
+        setSeatsData(newSeatNumber);
+        console.log(newSeatNumber);
     }
 
     function bookSeat(e){
@@ -57,7 +64,7 @@ export default function Seats(props){
             console.log("Você precisa digitar um cpf");
         }
 
-        const userData = {ids: selectedSeats, name: userName, cpf: userCpf};
+        const userData = {ids: seatsData, name: userName, cpf: userCpf};
 
         const promisse = axios.post(bookSeatUrl, userData);
         promisse.then(() => navigate("/success"));
@@ -73,7 +80,7 @@ export default function Seats(props){
             <SeatsContainer>
                 {seatsInfo.map((s) => (
                     <Seat key={s.id} >
-                        <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"} onChange={(e) => selectSeat(e.target.id)} />
+                        <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"} onChange={(e) => selectSeat(e.target.id, s.name)} />
                         <SeatNumber htmlFor={s.id}>{s.name}</SeatNumber>
                     </Seat>
                 ))}

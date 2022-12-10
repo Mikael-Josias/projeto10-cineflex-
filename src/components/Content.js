@@ -8,18 +8,18 @@ import Seats from "./Seats";
 import Success from "./Success";
 
 export default function Content(){
-    const [selectedMovie, setSelectedMovie] = useState(null);
-    const [selectedSession, setSelectedSession] = useState(null);
+    const [movieData, setMovieData] = useState(null);
+    const [seatsData, setSeatsData] = useState([]);
 
     return (
         <StyledContent>
             <BrowserRouter>
                 <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
                 <Routes>
-                    <Route path="/" element={<Movies setSelectedMovie={setSelectedMovie} />} />
+                    <Route path="/" element={<Movies />} />
                     <Route path="/:movieId/schedules" element={<Schedule/>} />
-                    <Route path="/:movieId/:scheduleId/seats" element={<Seats selectedMovie={selectedMovie}/>} />
-                    <Route path="/success" element={<Success />} />
+                    <Route path="/:movieId/:scheduleId/seats" element={<Seats setMovieData={setMovieData} seatsData={seatsData} setSeatsData={setSeatsData} />} />
+                    <Route path="/success" element={<Success movieData={movieData} seatsData={seatsData} />} />
                 </Routes>
             </BrowserRouter>
         </StyledContent>
