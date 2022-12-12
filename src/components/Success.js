@@ -2,9 +2,6 @@ import { json, Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Success(props){
-    let {userData} = useParams();
-    userData = JSON.parse(userData);
-
     const navigate = useNavigate();
     const {data} = props;
     
@@ -22,8 +19,8 @@ export default function Success(props){
             </DataContainer>
             <DataContainer data-test="client-info">
                 <SubcategoryTitle>Comprador</SubcategoryTitle>
-                <CategoryDataSpan>Nome: {userData.name}</CategoryDataSpan>
-                <CategoryDataSpan>CPF: {userData.cpf}</CategoryDataSpan>
+                <CategoryDataSpan>Nome: {data.user.name}</CategoryDataSpan>
+                <CategoryDataSpan>CPF: {data.user.cpf}</CategoryDataSpan>
             </DataContainer>
 
             <Link to={"/"} data-test="go-home-btn">

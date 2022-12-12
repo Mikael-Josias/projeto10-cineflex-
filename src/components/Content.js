@@ -8,7 +8,7 @@ import Seats from "./Seats";
 import Success from "./Success";
 
 export default function Content(){
-    const [data, setData] = useState({movie: {id: -1, title: ""}, session: {id: -1, day: "", weekday: "", hour: ""}, seats: {ids: [], numbers: []}});
+    const [data, setData] = useState({movie: {id: -1, title: ""}, session: {id: -1, day: "", weekday: "", hour: ""}, seats: {ids: [], numbers: []}, user: {name: "", cpf: ""}});
     const [movieData, setMovieData] = useState(null);
     const [seatsData, setSeatsData] = useState([]);
 
@@ -25,7 +25,7 @@ export default function Content(){
                     <Route path="/" element={<Movies setData={setData} />} />
                     <Route path="/sessoes/:idFilme" element={<Schedule data={data} setData={setData} />} />
                     <Route path="/assentos/:idSessao" element={<Seats data={data} setData={setData} movieData={movieData} setMovieData={setMovieData} seatsData={seatsData} setSeatsData={setSeatsData} />} />
-                    <Route path="/:userData/success" element={<Success data={data} />} />
+                    <Route path="/sucesso" element={<Success data={data} />} />
                 </Routes>
             </BrowserRouter>
         </StyledContent>

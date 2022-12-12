@@ -81,12 +81,14 @@ export default function Seats(props){
         const newData = {...data};
         newData.seats.ids = selectedSeats;
         newData.seats.numbers = seatsData;
+        newData.user.name = userName;
+        newData.user.cpf = userCpf;
         setData(newData);
 
         const userData = {ids: selectedSeats, name: userName, cpf: userCpf};
         console.log(JSON.stringify(newData));
         const promisse = axios.post(bookSeatUrl, userData);
-        promisse.then(() => navigate(`/${JSON.stringify(userData)}/success`));
+        promisse.then(() => navigate(`/sucesso`));
         promisse.catch((err) => console.log(err));
     }
 

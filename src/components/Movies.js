@@ -16,7 +16,7 @@ export default function Movies(props){
     }, []);
 
     function selectMovie(movieId, movieTitle){
-        setData({movie: {id: movieId, title: movieTitle}, session: {id: -1, day: "", weekday: "", hour: ""}, seats: {ids: [], numbers: []}});
+        setData({movie: {id: movieId, title: movieTitle}, session: {id: -1, day: "", weekday: "", hour: ""}, seats: {ids: [], numbers: []}, user: {name: "", cpf: ""}});
         navigate(`/sessoes/${movieId}`);
     }
 
