@@ -3,7 +3,7 @@ import styled from "styled-components";
 export default function Footer(props){
     const {movie, session} = props;
     return (
-        <StyledFooter>
+        <StyledFooter data-test="footer">
             <MovieCard key={movie.id}>
                 <MovieBanner src={movie.posterURL} alt={movie.title} key={movie.id} />
             </MovieCard>

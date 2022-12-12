@@ -8,18 +8,24 @@ import Seats from "./Seats";
 import Success from "./Success";
 
 export default function Content(){
+    const [data, setData] = useState({movie: {id: -1, title: ""}, session: {id: -1, day: "", weekday: "", hour: ""}, seats: {ids: [], numbers: []}});
     const [movieData, setMovieData] = useState(null);
     const [seatsData, setSeatsData] = useState([]);
 
+    let subtitleText = "Selecione o filme";
+    if(data.movie.id !== -1) subtitleText = "Selecione o horário";
+    if(data.movie.id !== -1 && data.session.id !== -1) subtitleText = "Selecione o(s) assento(s)";
+    if (data.movie.id !== -1 && data.session.id !== -1 && data.seats.ids.length !== 0) subtitleText = "Pedido feito com sucesso!"
+    console.log(data)
     return (
         <StyledContent>
             <BrowserRouter>
-                <ContentSubtitle>Selecione o {"filme"}</ContentSubtitle>
+                <ContentSubtitle subText={data.seats.ids.length !== 0}>{subtitleText}</ContentSubtitle>
                 <Routes>
-                    <Route path="/" element={<Movies />} />
-                    <Route path="/:movieId/schedules" element={<Schedule/>} />
-                    <Route path="/:movieId/:scheduleId/seats" element={<Seats setMovieData={setMovieData} seatsData={seatsData} setSeatsData={setSeatsData} />} />
-                    <Route path="/success" element={<Success movieData={movieData} seatsData={seatsData} />} />
+                    <Route path="/" element={<Movies setData={setData} />} />
+                    <Route path="/sessoes/:idFilme" element={<Schedule data={data} setData={setData} />} />
+                    <Route path="/assentos/:idSessao" element={<Seats data={data} setData={setData} movieData={movieData} setMovieData={setMovieData} seatsData={seatsData} setSeatsData={setSeatsData} />} />
+                    <Route path="/:userData/success" element={<Success data={data} />} />
                 </Routes>
             </BrowserRouter>
         </StyledContent>
@@ -37,7 +43,8 @@ const ContentSubtitle = styled.span`
     align-items: center;
     font-family: 'Roboto', sans-serif;
     font-size: 24px;
-    font-weight: 400;
+    font-weight: ${props => props.subText ? "700" : "400"};
+    color: ${props => props.subText ? "#247A6B" : "black"};
     height: 110px;
     width: 100%;
 `;

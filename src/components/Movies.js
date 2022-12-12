@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Movies(props){
+    const navigate = useNavigate();
     const [movies, setMovies] = useState(null);
+    const {setData} = props;
     const moviesUrl = "https://mock-api.driven.com.br/api/v8/cineflex/movies";
 
     useEffect(() => {
@@ -13,6 +15,11 @@ export default function Movies(props){
         promisse.catch((p) => console.log(p.message));
     }, []);
 
+    function selectMovie(movieId, movieTitle){
+        setData({movie: {id: movieId, title: movieTitle}, session: {id: -1, day: "", weekday: "", hour: ""}, seats: {ids: [], numbers: []}});
+        navigate(`/sessoes/${movieId}`);
+    }
+
     if (movies === null) {
         return <div>Carregando...</div>
     }
@@ -20,11 +27,9 @@ export default function Movies(props){
     return (
         <MoviesSection>
                 {movies.map((m, i) => (
-                    <Link key={m.id} to={`/${m.id}/schedules`}>
-                        <MovieCard  id={i} >
+                        <MovieCard key={m.id}  id={i} onClick={() => selectMovie(m.id, m.title)} data-test="movie" >
                             <MovieBanner src={m.posterURL} alt={m.title} key={m.id} />
                         </MovieCard>
-                    </Link>
                 ))}
         </MoviesSection>
     );

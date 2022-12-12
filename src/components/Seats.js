@@ -6,8 +6,8 @@ import styled from "styled-components";
 import Footer from "./Footer";
 
 export default function Seats(props){
-    const {movieId, scheduleId} = useParams();
     const navigate = useNavigate();
+    const {idSessao} = useParams();
 
     const [dayInfo, setDayInfo] = useState(null);
     const [movieInfo, setMovieInfo] = useState(null);
@@ -17,16 +17,17 @@ export default function Seats(props){
     const [userName, setUserName] = useState(null);
     const [userCpf, setUserCpf] = useState(null);
 
-    const {setMovieData, setSeatsData, seatsData} = props;
+    const {data, setData, movieData, setMovieData, setSeatsData, seatsData} = props;
 
-    const seatsUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${scheduleId}/seats`;
+    const seatsUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`;
     const bookSeatUrl = `https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`;
 
     useEffect(() => {
         const promisse = axios.get(seatsUrl);
         promisse.then((p) => {
-            setMovieData(p.data);
+            setMovieData(p.data.movie)
             setDayInfo(p.data);
+            console.log(p.data);
             setMovieInfo(p.data.movie);
             setSeatsInfo(p.data.seats);
         });
@@ -64,10 +65,15 @@ export default function Seats(props){
             console.log("Você precisa digitar um cpf");
         }
 
-        const userData = {ids: seatsData, name: userName, cpf: userCpf};
+        const newData = {...data};
+        newData.seats.ids = selectedSeats;
+        newData.seats.numbers = seatsData;
+        setData(newData);
 
+        const userData = {ids: selectedSeats, name: userName, cpf: userCpf};
+        console.log(JSON.stringify(newData));
         const promisse = axios.post(bookSeatUrl, userData);
-        promisse.then(() => navigate("/success"));
+        promisse.then(() => navigate(`/${JSON.stringify(userData)}/success`));
         promisse.catch((err) => console.log(err));
     }
 
@@ -80,7 +86,7 @@ export default function Seats(props){
             <SeatsContainer>
                 {seatsInfo.map((s) => (
                     <Seat key={s.id} >
-                        <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"} onChange={(e) => selectSeat(e.target.id, s.name)} />
+                        <Checkbox type="checkbox" id={s.id} disabled={!s.isAvailable} bgColor={s.isAvailable? "#C3CFD9" : "#FBE192"} bdColor={s.isAvailable? "#808F9D" : "#F7C52B"} onChange={(e) => selectSeat(e.target.id, s.name)} data-test="seat" />
                         <SeatNumber htmlFor={s.id}>{s.name}</SeatNumber>
                     </Seat>
                 ))}
@@ -103,14 +109,14 @@ export default function Seats(props){
             <BuySeatsForm onSubmit={(e) => bookSeat(e)}>
                 <FormLabel>
                     Nome do comprador:
-                    <FormInput type="text" placeholder="Digite seu nome..." onChange={(e) => setUserName(e.target.value)} required />
+                    <FormInput type="text" placeholder="Digite seu nome..." onChange={(e) => setUserName(e.target.value)} required data-test="client-name" />
                 </FormLabel>
                 <FormLabel>
                     CPF do comprador:
-                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} required />
+                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} required data-test="client-cpf" />
                 </FormLabel>
 
-                <FormInput type="submit" value="Reservar assento(s)" />
+                <FormInput type="submit" value="Reservar assento(s)" data-test="book-seat-btn" />
             </BuySeatsForm>
             <Footer movie={movieInfo} session={dayInfo} />
         </>

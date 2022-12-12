@@ -1,29 +1,34 @@
-import { useNavigate } from "react-router-dom";
+import { json, Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Success(props){
-    const navigate = useNavigate();
-    const {movieData, seatsData} = props;
+    let {userData} = useParams();
+    userData = JSON.parse(userData);
 
-    console.log(seatsData);
+    const navigate = useNavigate();
+    const {data} = props;
+    
+
     return (
         <SuccessContainer>
-            <DataContainer>
+            <DataContainer data-test="movie-info">
                 <SubcategoryTitle>Filme e sessão</SubcategoryTitle>
-                <CategoryDataSpan>{movieData.movie.title}</CategoryDataSpan>
-                <CategoryDataSpan>{`${movieData.day.date} ${movieData.name}`}</CategoryDataSpan>
+                <CategoryDataSpan>{data.movie.title}</CategoryDataSpan>
+                <CategoryDataSpan>{`${data.session.day} ${data.session.hour}`}</CategoryDataSpan>
             </DataContainer>
-            <DataContainer>
+            <DataContainer data-test="seats-info">
                 <SubcategoryTitle>Ingressos</SubcategoryTitle>
-                {seatsData.map((s) => <CategoryDataSpan key={s}>Assento {s}</CategoryDataSpan>)}
+                {data.seats.numbers.map((s) => <CategoryDataSpan key={s}>Assento {s}</CategoryDataSpan>)}
             </DataContainer>
-            <DataContainer>
+            <DataContainer data-test="client-info">
                 <SubcategoryTitle>Comprador</SubcategoryTitle>
-                <CategoryDataSpan>Nome: João da Silva Sauro</CategoryDataSpan>
-                <CategoryDataSpan>CPF: 123.456.789-10</CategoryDataSpan>
+                <CategoryDataSpan>Nome: {userData.name}</CategoryDataSpan>
+                <CategoryDataSpan>CPF: {userData.cpf}</CategoryDataSpan>
             </DataContainer>
 
-            <FormInput type="submit" value="Voltar pra Home" onClick={() => navigate("/")}/>
+            <Link to={"/"} data-test="go-home-btn">
+                <FormInput type="submit" value="Voltar pra Home" onClick={() => navigate("/")}/>
+            </Link>
         </SuccessContainer>
     );
 }
