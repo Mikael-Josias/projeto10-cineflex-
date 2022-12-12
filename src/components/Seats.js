@@ -19,6 +19,8 @@ export default function Seats(props){
 
     const {data, setData, movieData, setMovieData, setSeatsData, seatsData} = props;
 
+    const numeros = "0123456789".split("");
+
     const seatsUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`;
     const bookSeatUrl = `https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`;
 
@@ -33,6 +35,17 @@ export default function Seats(props){
         });
         promisse.catch((p) => console.log(p.message));
     }, []);
+
+    function isNumber(value){
+        const newValue = value.split("");
+        const c = value[value.length - 1];
+        console.log(value);
+        console.log(c)
+        console.log(numeros.includes(c));
+        if (numeros.includes(c)) {
+            setUserCpf(value);
+        }
+    }
 
     function selectSeat(id, num){
         const newArr = [...selectedSeats];
@@ -113,7 +126,7 @@ export default function Seats(props){
                 </FormLabel>
                 <FormLabel>
                     CPF do comprador:
-                    <FormInput type="number" placeholder="Digite seu CPF..." ue={userCpf} onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} required data-test="client-cpf" />
+                    <FormInput type="number" placeholder="Digite seu CPF..." value={userCpf} onWheel={(e) => e.target.blur()} onChange={(e) => isNumber(e.target.value)} required data-test="client-cpf" />
                 </FormLabel>
 
                 <FormInput type="submit" value="Reservar assento(s)" data-test="book-seat-btn" />
