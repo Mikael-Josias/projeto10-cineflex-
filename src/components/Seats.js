@@ -14,8 +14,8 @@ export default function Seats(props){
     const [seatsInfo, setSeatsInfo] = useState(null);
 
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const [userName, setUserName] = useState(null);
-    const [userCpf, setUserCpf] = useState(null);
+    const [userName, setUserName] = useState("");
+    const [userCpf, setUserCpf] = useState("");
 
     const {data, setData, movieData, setMovieData, setSeatsData, seatsData} = props;
 
@@ -109,11 +109,11 @@ export default function Seats(props){
             <BuySeatsForm onSubmit={(e) => bookSeat(e)}>
                 <FormLabel>
                     Nome do comprador:
-                    <FormInput type="text" placeholder="Digite seu nome..." onChange={(e) => setUserName(e.target.value)} required data-test="client-name" />
+                    <FormInput type="text" placeholder="Digite seu nome..." value={userName} onChange={(e) => setUserName(e.target.value)} required data-test="client-name" />
                 </FormLabel>
                 <FormLabel>
                     CPF do comprador:
-                    <FormInput type="number" placeholder="Digite seu CPF..." onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} required data-test="client-cpf" />
+                    <FormInput type="number" placeholder="Digite seu CPF..." ue={userCpf} onWheel={(e) => e.target.blur()} onChange={(e) => setUserCpf(e.target.value)} required data-test="client-cpf" />
                 </FormLabel>
 
                 <FormInput type="submit" value="Reservar assento(s)" data-test="book-seat-btn" />
